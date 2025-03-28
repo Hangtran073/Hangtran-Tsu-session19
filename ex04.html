@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Todo App</title>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background: linear-gradient(to right, #4facfe, #00f2fe);
+                font-family: Arial, sans-serif;
+            }
+
+            .container {
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+                width: 300px;
+            }
+
+            h2 {
+                text-align: center;
+            }
+
+            .input-group {
+                display: flex;
+                margin-bottom: 15px;
+            }
+
+            input {
+                flex: 1;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            button {
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+            .add-btn {
+                background: #9b59b6;
+                color: white;
+                margin-left: 10px;
+            }
+
+            .todo-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #f4f4f4;
+                padding: 10px;
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+
+            .delete-btn {
+                background: red;
+                color: white;
+            }
+
+            .clear-btn {
+                background: purple;
+                color: white;
+                width: 100%;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <h2>Todo App</h2>
+            <div class="input-group">
+                <input type="text" id="todoInput" placeholder="Add your new todo">
+                <button class="add-btn" onclick="addTodo()">+</button>
+            </div>
+            <div id="todoList"></div>
+            <p id="taskCount">You have 0 pending tasks</p>
+            <button class="clear-btn" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", loadTodos);
+
+            function addTodo() {
+                let todoInput = document.getElementById("todoInput");
+                let todoText = todoInput.value.trim();
+
+                if (todoText === "") {
+                    alert("Vui lòng nhập công việc!");
+                    return;
+                }
+
+                let todos = getTodosFromStorage();
+                todos.push(todoText);
+                saveTodosToStorage(todos);
+
+                renderTodos();
+                todoInput.value = "";
+            }
+
+            function renderTodos() {
+                let todos = getTodosFromStorage();
+                let todoList = document.getElementById("todoList");
+                todoList.innerHTML = "";
+
+                todos.forEach((todo, index) => {
+                    let div = document.createElement("div");
+                    div.classList.add("todo-item");
+                    div.innerHTML = `
+ <span>${todo}</span>
+ <button class="delete-btn" onclick="deleteTodo(${index})"> </button>
+ `;
+                    todoList.appendChild(div);
+                });
+
+                document.getElementById("taskCount").textContent = `You have ${todos.length} pending tasks`;
+            }
+
+            function deleteTodo(index) {
+                let todos = getTodosFromStorage();
+                todos.splice(index, 1);
+                saveTodosToStorage(todos);
+                renderTodos();
+            }
+
+            function clearAll() {
+                localStorage.removeItem("todos");
+                renderTodos();
+            }
+
+            function getTodosFromStorage() {
+                return JSON.parse(localStorage.getItem("todos")) || [];
+            }
+
+            function saveTodosToStorage(todos) {
+                localStorage.setItem("todos", JSON.stringify(todos));
+            }
+
+            function loadTodos() {
+                renderTodos();
+            }
+        </script>
+
+    </body>
+
+</html>
