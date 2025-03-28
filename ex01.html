@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            #container {
+                border-radius: 5px;
+                border: 10px solid rgb(215, 213, 213);
+                padding: 30px;
+                width: 40%;
+                line-height: 50px;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            input {
+                width: 90%;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid gray;
+
+            }
+
+            #btn {
+                width: 94%;
+                padding: 10px;
+                color: white;
+                border-radius: 5px;
+                border: none;
+                background-color: rgb(68, 68, 223);
+
+
+            }
+        </style>
+    </head>
+
+    <body>
+        <form id="container">
+            <h1>Register</h1>
+            <label for="email">Email:</label><br />
+            <input id="email" type="email" placeholder="Enter your email address"><br />
+            <label for="password">Password:</label><br />
+            <input id="password" type="password" placeholder="Enter your password"><br />
+            <label for="password">Confirm Password:</label><br />
+            <input id="confirm" type="password" placeholder="Enter your confirm password"><br />
+            <button id="btn" type="submit" onclick="register()">Register</button>
+        </form>
+        <script>
+
+            function register() {
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+                const confirm = document.getElementById("confirm").value;
+
+                if (email === "" || password === "" || confirm === "" || password !== confirm) {
+                    alert("Vui lòng nhập đầy đủ thông tin và mật khẩu đúng");
+                }
+                return;
+
+            }
+            register();
+            //Kiểm tra sự tồn tại của email
+
+            function isEmail(email) {
+                return localStorage.getItem(email) !== null;
+            }
+            localStorage.setItem("email", "binhminh123@gmail.com");
+
+            console.log(isEmail("binhminh123@gmail.com"));
+            console.log(isEmail("binhminh1234@gmail.com"));
+
+            //lưu email vao localStorage
+
+
+            document.getElementById("container").addEventListener("submit", function (event) {
+                event.preventDefault();
+
+
+                if (localStorage.getItem(email)) {
+                    alert("Email này đã được đăng ký!");
+                } else {
+                    let user = { email, password };
+                    localStorage.setItem("email", JSON.stringify(user));
+                    alert("Đăng ký thành công!");
+                    document.getElementById("container").reset();
+                }
+            });
+
+
+
+
+
+        </script>
+    </body>
+
+</html>
