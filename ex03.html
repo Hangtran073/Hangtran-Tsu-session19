@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login Form</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f4f4f4;
+            }
+            h2{
+                text-align: center;
+            }
+
+            .container {
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                width: 400px;
+            }
+
+            .input-group {
+                position: relative;
+                margin-bottom: 15px;
+            }
+
+            input {
+                width: 89%;
+                padding: 8px;
+                padding-right: 35px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .error {
+                color: red;
+                font-size: 14px;
+                margin-top: 5px;
+            }
+
+            .toggle-password {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-20%);
+                cursor: pointer;
+            }
+
+            button {
+                width: 100%;
+                padding: 10px;
+                background-color: blue;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                margin-top: 10px;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }
+
+            button:hover {
+                background-color: darkblue;
+            }
+            a {
+                text-decoration: none;
+                color: blue;
+
+            }
+
+            .link {
+                display: flex;
+                flex-direction: row;
+                gap: 80px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Email:</label>
+                    <input type="text" id="email" placeholder="Enter your email address">
+                    <p class="error" id="emailError"></p>
+                </div>
+
+                <div class="input-group">
+                    <label>Password:</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                    <span class="toggle-password" onclick="togglePassword()">👁️ </span>
+                    <p class="error" id="passwordError"></p>
+                </div>
+
+                <button type="submit">Login</button>
+                <div class="link">
+                    <a href="">Forgot password?</a>
+                    <span>or</span>
+                    <a href="">SignUp</a>
+                </div>
+
+            </form>
+        </div>
+
+        <script>
+            document.getElementById("loginForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Ngăn form gửi đi nếu có lỗi
+
+                let email = document.getElementById("email").value.trim();
+                let password = document.getElementById("password").value.trim();
+                let emailError = document.getElementById("emailError");
+                let passwordError = document.getElementById("passwordError");
+
+                emailError.textContent = "";
+                passwordError.textContent = "";
+
+                let isValid = true;
+
+                // Kiểm tra email
+                if (email === "") {
+                    emailError.textContent = "Email không được để trống.";
+                    isValid = false;
+                } else if (!/\S+@\S+\.\S+/.test(email)) {
+                    emailError.textContent = "Email không hợp lệ.";
+                    isValid = false;
+                }
+
+                // Kiểm tra mật khẩu
+                if (password === "") {
+                    passwordError.textContent = "Mật khẩu không được để trống.";
+                    isValid = false;
+                } else if (password.length < 6) {
+                    passwordError.textContent = "Mật khẩu phải có ít nhất 6 ký tự.";
+                    isValid = false;
+                }
+
+                // Nếu hợp lệ, chuyển hướng đến trang chủ (hoặc xử lý tiếp)
+                if (isValid) {
+                    alert("Đăng nhập thành công!");
+                    window.location.href = "home.html"; // 
+                }
+            });
+
+            // Hiển thị/Ẩn mật khẩu
+            function togglePassword() {
+                let passwordInput = document.getElementById("password");
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                } else {
+                    passwordInput.type = "password";
+                }
+            }
+        </script>
+
+    </body>
+
+</html>
